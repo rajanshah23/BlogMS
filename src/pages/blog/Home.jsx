@@ -1,7 +1,6 @@
-import React from "react";
 
 import Layout from "../../components/layout/layout";
-import Card from "./componenets/card/Card";
+import Card from "./components/card/Card";
 
 const Home = () => {
   return (
@@ -11,8 +10,7 @@ const Home = () => {
         <Card />
         <Card />
         <Card />
-        <Card />
-        <Card />
+        
       </div>
     </Layout>
   );
