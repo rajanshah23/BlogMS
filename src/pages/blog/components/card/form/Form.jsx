@@ -1,6 +1,27 @@
-import { Link } from "react-router-dom";
+import { useState } from "react";
 
-const Form = (props) => {
+const Form = ({ type, onSubmit }) => {
+  const [data, setData] = useState({
+    title: "",
+    subtitle: "",
+    description: "",
+    category: "",
+    image: ""
+  });
+
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setData({
+      ...data,
+      [name]: name === "image" ? e.target.files[0] : value,
+    });
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    onSubmit(data);
+  };
+
   return (
     <div className="flex justify-center items-center w-screen min-h-screen bg-white">
       <div className="container mx-auto px-4 lg:px-20">
@@ -8,15 +29,18 @@ const Form = (props) => {
           <div className="max-w-4xl mx-auto px-4 py-6 ">
             <div className="flex justify-between items-center ">
               <h1 className="font-bold text-blue-800 text-4xl italic">
-                {props.type} Blog
+                {type} Blog
               </h1>
             </div>
 
-            <form className="grid grid-cols-1 gap-5 md:grid-cols-2 mt-5">
+            <form onSubmit={handleSubmit} className="grid grid-cols-1 gap-5 md:grid-cols-2 mt-5">
               <input
                 className="w-full bg-gray-100 text-gray-900 p-3 rounded-lg focus:outline-none focus:shadow-outline"
                 type="text"
                 placeholder="Title*"
+                name="title"
+                value={data.title}
+                onChange={handleChange}
                 required
               />
 
@@ -24,6 +48,9 @@ const Form = (props) => {
                 className="w-full bg-gray-100 text-gray-900 p-3 rounded-lg focus:outline-none focus:shadow-outline"
                 type="text"
                 placeholder="Subtitle*"
+                name="subtitle"
+                value={data.subtitle}
+                onChange={handleChange}
                 required
               />
 
@@ -31,57 +58,46 @@ const Form = (props) => {
                 className="w-full bg-gray-100 text-gray-900 p-3 rounded-lg focus:outline-none focus:shadow-outline"
                 type="file"
                 accept="image/*"
+                name="image"
+                onChange={handleChange}
               />
 
               <select
                 className="w-full bg-gray-100 text-gray-900 p-3 rounded-lg focus:outline-none focus:shadow-outline"
                 required
-                defaultValue=""
+                name="category"
+                value={data.category}
+                onChange={handleChange}
               >
                 <option value="" disabled>
                   Choose Category*
                 </option>
-                <option value="1">Tech</option>
-                <option value="2">Lifestyle</option>
-                <option value="3">Education</option>
-                {/* Add more categories here */}
+                <option value="Tech">Tech</option>
+                <option value="Lifestyle">Lifestyle</option>
+                <option value="Education">Education</option>
+                {/* Add more categories if needed */}
               </select>
+
+              <textarea
+                className="w-full h-32 bg-gray-100 text-gray-900 p-3 rounded-lg focus:outline-none focus:shadow-outline md:col-span-2"
+                placeholder="Description*"
+                name="description"
+                value={data.description}
+                onChange={handleChange}
+                required
+              ></textarea>
+
+              <div className="my-2 w-full md:col-span-2 lg:w-1/4">
+                <button
+                  className="uppercase text-sm font-bold tracking-wide bg-blue-900 text-gray-100 p-3 rounded-lg w-full focus:outline-none focus:shadow-outline"
+                  type="submit"
+                >
+                  Send Message
+                </button>
+              </div>
             </form>
 
-            <div className="my-4">
-              <textarea
-                placeholder="Description*"
-                className="w-full h-32 bg-gray-100 text-gray-900 p-3 rounded-lg focus:outline-none focus:shadow-outline"
-              ></textarea>
-            </div>
-
-            <div className="my-2 w-1/2 lg:w-1/4">
-              <button
-                className="uppercase text-sm font-bold tracking-wide bg-blue-900 text-gray-100 p-3 rounded-lg w-full focus:outline-none focus:shadow-outline"
-                type="submit"
-              >
-                Send Message
-              </button>
-            </div>
           </div>
-        </div>
-      </div>
-
-      <div className="flex items-end justify-end fixed bottom-0 right-0 mb-4 mr-4 z-10">
-        <div>
-          <a
-            title="Buy me a pizza"
-            href="https://www.buymeacoffee.com/Dekartmc"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="block w-16 h-16 rounded-full transition-all shadow hover:shadow-lg transform hover:scale-110 hover:rotate-12"
-          >
-            <img
-              className="object-cover object-center w-full h-full rounded-full"
-              src="https://img.icons8.com/emoji/48/000000/pizza-emoji.png"
-              alt="Buy me a pizza"
-            />
-          </a>
         </div>
       </div>
     </div>
