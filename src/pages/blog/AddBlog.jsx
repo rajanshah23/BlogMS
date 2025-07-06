@@ -10,7 +10,7 @@ const AddBlog = () => {
   const handleCreateBlog = async (data) => {
     try {
       const response = await axios.post(`${baseUrl}/blog`, data, {
-
+ 
         headers: {
           "Content-Type": "multipart/form-data",
           "Authorization": localStorage.getItem('token'),
